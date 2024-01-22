@@ -1,0 +1,15 @@
+controllers:
+    resource:
+        path: ../
+        namespace: App\Controller\
+    type: attribute
+
+
+kernel:
+    resource: App\Kernel
+    type: attribute
+# index:
+#     # resource:
+
+#     path: 
+#     controllers: App\Controller\DefaultController::index
