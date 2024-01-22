@@ -33,9 +33,19 @@ class DefaultController extends AbstractController
     #[Route('/news/{slug}', name: 'home')]
     public function show($slug)
     {
-      
+        $comments = [
+            'First item to check',
+            'This is second part',
+            'This is the third part',
+        ];
         // Your controller logic here
-        return new Response(sprintf('Future page to show %s', $slug));
+        return $this->render('default/show.html.twig', [
+
+            'title' => ucwords(str_replace('-', ' ', $slug)),
+
+            'comments'=>$comments, 
+
+        ]);
     }
 
  
