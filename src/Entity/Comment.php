@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -46,6 +48,14 @@ class Comment
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageFileName = null;
+
+    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Post::class)]
+    private Collection $posts;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
 
     // #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     // /**
@@ -192,6 +202,36 @@ class Comment
 
     //     return $this;
     // }
+
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): static
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->setComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): static
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getComment() === $this) {
+                $post->setComment(null);
+            }
+        }
+
+        return $this;
+    }
 
 
 
