@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
+use App\Repository\PostRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,11 +28,8 @@ class DefaultController extends AbstractController
 
     {
         
-        
         //$comments = $repository->findBy( [], ['commentedAt'=> 'DESC']);
         $comments = $repository->findAllCommentedOrderByNewest();
-
-
 
         return $this->render('default/homepage.html.twig', ['comments'=>$comments,]);
         // $this->render('default/index.html.twig', [
@@ -39,13 +37,10 @@ class DefaultController extends AbstractController
         // ]);
     }
 
-
-
-
     #[Route('/news/new')]
     public function new(EntityManagerInterface $entityManager){
 
-        die('todo');
+        die('TODO');
 
              return new Response(sprintf('Hallo! The shiny new comment is <br> id %s,<br> name %s,<br> slug %s <br> comment %s',
              $comment->getId(),
@@ -58,27 +53,17 @@ class DefaultController extends AbstractController
 
 
     #[Route('/news/{slug}', name: 'article_show')]
-    public function show(Comment $comment)
+    public function show(Comment $comment) //PostRepository $postRepository
     {
 
-    //    if($comment->getSlug()==='Baco'){
-    //         $slack->sendMessage('Baco', 'Ah, Kirk, my old friend..');
-    //    }
-    
-
-        $fakeComments = [
-            'First item to check',
-            'This is second part',
-            'This is the third part',
-        ];
-       
+        // find posts related to the comment
+        // $posts = $postRepository->findBy([ 'comment' => $comment ]);
+        
         // Your controller logic here
         return $this->render('default/show.html.twig', [
 
-            // 'title' => ucwords(str_replace('-', ' ', $slug)),
-            // 'slug'=>$slug,
             'article'=>$comment,
-            'comments'=>$fakeComments, 
+           
 
         ]);
     }

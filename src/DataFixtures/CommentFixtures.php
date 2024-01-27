@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Comment;
+use App\Entity\Post;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -31,7 +32,7 @@ class CommentFixtures extends BaseFixture
 
    protected function loadData(ObjectManager $manager) 
     {
-        $this->createMany(Comment::class, 10, function(Comment $comment, $count) {
+        $this->createMany(Comment::class, 10, function(Comment $comment, $count) use ($manager)  {
 
             $comment->setName($this->faker->randomElement(self::$commentTitle))
                 // ->setSlug('Why-Asteroids-Taste-Like-Baco-'.$count)
@@ -55,9 +56,10 @@ class CommentFixtures extends BaseFixture
                 ->setHeartCount($this->faker->numberBetween(5, 100))
                 ->setImageFileName($this->faker->randomElement(self::$commentImages));
 
+          
 
             // These two lins will save object
-            // persist-> it will tell to doctrin to be aware of comment object
+            // persist-> it will tell to doctrine to be aware of comment object
             //$manager->persist($comment);
 
 

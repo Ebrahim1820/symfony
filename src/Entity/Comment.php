@@ -23,8 +23,6 @@ class Comment
 
     #[ORM\Column(length: 50)]
     private ?string $name = null;
-
-    
     
       /**
      * @Gedmo\Slug(fields={"name"})
@@ -49,35 +47,15 @@ class Comment
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageFileName = null;
 
-    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Post::class)]
+    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Post::class, fetch:'EXTRA_LAZY')]
+    #[ORM\OrderBy(['createdAt' =>'DESC'])]
+
     private Collection $posts;
 
     public function __construct()
     {
         $this->posts = new ArrayCollection();
     }
-
-    // #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    // /**
-    //  * Summary of createdAt
-    //  * @Gedmo\Timestampable(on="create")
-    //  */
-    // private ?\DateTime $createdAt = null;
-
-    // #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    // /**
-    //  * Summary of updateAt
-    //  * @Gedmo\Timestampable(on="update")
-    //  */
-    // private ?\DateTime $updatedAt = null;
-
-
-
-
-
-
-
-
 
     public function getId(): ?int
     {
@@ -179,29 +157,6 @@ class Comment
         return $this;
     }
 
-    // public function getCreatedAt(): ?\DateTime
-    // {
-    //     return $this->createdAt;
-    // }
-
-    // public function setCreatedAt(\DateTime $createdAt): static
-    // {
-    //     $this->createdAt = $createdAt;
-
-    //     return $this;
-    // }
-
-    // public function getUpdatedAt(): ?\DateTime
-    // {
-    //     return $this->updatedAt;
-    // }
-
-    // public function setUpdatedAt(\DateTime $updatedAt): static
-    // {
-    //     $this->updatedAt = $updatedAt;
-
-    //     return $this;
-    // }
 
     /**
      * @return Collection<int, Post>
