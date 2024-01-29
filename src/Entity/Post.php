@@ -27,6 +27,9 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?Comment $comment = null;
 
+    #[ORM\Column]
+    private ?bool $isDeleted = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,6 +67,18 @@ class Post
     public function setComment(?Comment $comment): static
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function isIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): static
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }

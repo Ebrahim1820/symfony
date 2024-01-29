@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -27,12 +28,23 @@ class CommentRepository extends ServiceEntityRepository
     */
    public function findAllCommentedOrderByNewest(): array
    {
+        // To use the logic from createNonDeletedCriteria
+        // We can call that like this 
+        // $this->createQueryBuilder('a')
+        //     ->addCriteria(self::createNonDeletedCriteria());
       
             return $this->addIsPublishedQueryBuilder()
            ->orderBy('a.commentedAt', 'DESC')
            ->getQuery()
            ->getResult()
        ;
+   }
+
+   public static function createNonDeletedCriteria()
+   {
+     return Criteria::create()
+     ->andWhere(Criteria::expr()->eq('isDeleted', false))
+     ->orderBy([ 'createdAt' => 'DESC' ]);
    }
 
 //    public function findOneBySomeField($value): ?Comment

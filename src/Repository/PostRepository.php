@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,31 @@ class PostRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Post::class);
+    }
+
+    /**
+     * Summary of findAllWithSearch
+     * @param null|string $term
+     * 
+     */
+    public function getWithSearchQueryBuilder(?string $term):QueryBuilder
+    {
+
+        $qb = $this->createQueryBuilder('p')
+            ->innerJoin('p.comment', 'c')
+            ->addSelect('c');
+            
+
+        if($term){
+           
+            $qb->andWhere('p.content LIKE :term OR p.authorName LIKE :term OR c.name LIKE :term')
+                ->setParameter('term', '%'.$term.'%')
+            ;
+          
+        }
+
+        return $qb
+            ->orderBy('p.createdAt', 'DESC');   
     }
 
 //    /**

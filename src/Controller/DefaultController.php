@@ -55,7 +55,7 @@ class DefaultController extends AbstractController
     #[Route('/news/{slug}', name: 'article_show')]
     public function show(Comment $comment) //PostRepository $postRepository
     {
-
+      
         // find posts related to the comment
         // $posts = $postRepository->findBy([ 'comment' => $comment ]);
         

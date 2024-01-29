@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -164,6 +165,22 @@ class Comment
     public function getPosts(): Collection
     {
         return $this->posts;
+    }
+
+      /**
+     * @return Collection<int, Post>
+     */
+    public function getNonDeletedPosts(): Collection
+    {
+        // it's similar to query builder to loop over 
+        // data and filter based on specific things
+        // $criteria = Criteria::create()
+        //     ->andWhere(Criteria::expr()->eq('isDeleted', false))
+        //     ->orderBy([ 'createdAt' => 'DESC' ]);
+
+        $criteria = CommentRepository::createNonDeletedCriteria();
+        
+        return $this->posts->matching($criteria);
     }
 
     public function addPost(Post $post): static
