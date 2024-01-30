@@ -8,7 +8,7 @@ use App\Entity\Tag;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CommentFixtures extends BaseFixture //implements DependentFixtureInterface
+class CommentFixtures extends BaseFixture 
 {
 
     private static $commentTitle = [
@@ -57,12 +57,12 @@ class CommentFixtures extends BaseFixture //implements DependentFixtureInterface
                 ->setHeartCount($this->faker->numberBetween(5, 100))
                 ->setImageFileName($this->faker->randomElement(self::$commentImages));
 
-            // /** @var Tag[] $tags */
-            // $tags = $this->getRandomReferences(Tag::class, $this->faker->numberBetween(0, 5));
+            /** @var Tag[] $tags */
+            $tags = $this->getRandomReferences(Tag::class, $this->faker->numberBetween(0, 5));
            
-            // foreach($tags as $tag){
-            //     $comment->addTag($tag);
-            // }
+            foreach($tags as $tag){
+                $comment->addTag($tag);
+            }
             // die();
             // These two lins will save object
             // persist-> it will tell to doctrine to be aware of comment object
