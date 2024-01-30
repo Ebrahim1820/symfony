@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
+// use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -43,8 +44,7 @@ class PostRepository extends ServiceEntityRepository
           
         }
 
-        return $qb
-            ->orderBy('p.createdAt', 'DESC');   
+        return $qb->orderBy('p.createdAt', 'DESC');   
     }
 
 //    /**

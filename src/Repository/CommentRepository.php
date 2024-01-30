@@ -5,7 +5,8 @@ namespace App\Repository;
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\DBAL\Query\QueryBuilder;
+// use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,8 @@ class CommentRepository extends ServiceEntityRepository
            ->orderBy('a.commentedAt', 'DESC')
            ->getQuery()
            ->getResult()
+            // ->leftJoin('a.tags', 't')
+            // ->addSelect('t')
        ;
    }
 
@@ -63,7 +66,7 @@ class CommentRepository extends ServiceEntityRepository
             ->andWhere('a.commentedAt IS NOT NULL'); 
     }
 
-    private function getOrCreateQueryBuilder(QueryBuilder $qb=null)
+    private function getOrCreateQueryBuilder(?QueryBuilder $qb=null)
     {
         return $qb ?: $this->createQueryBuilder('a');
     }

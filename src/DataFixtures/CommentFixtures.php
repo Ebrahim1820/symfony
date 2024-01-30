@@ -3,11 +3,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\Comment;
-use App\Entity\Post;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\Tag;
+
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CommentFixtures extends BaseFixture
+class CommentFixtures extends BaseFixture 
 {
 
     private static $commentTitle = [
@@ -56,8 +57,13 @@ class CommentFixtures extends BaseFixture
                 ->setHeartCount($this->faker->numberBetween(5, 100))
                 ->setImageFileName($this->faker->randomElement(self::$commentImages));
 
-          
-
+            // /** @var Tag[] $tags */
+            // $tags = $this->getRandomReferences(Tag::class, $this->faker->numberBetween(0, 5));
+           
+            // foreach($tags as $tag){
+            //     $comment->addTag($tag);
+            // }
+            // die();
             // These two lins will save object
             // persist-> it will tell to doctrine to be aware of comment object
             //$manager->persist($comment);
@@ -68,4 +74,11 @@ class CommentFixtures extends BaseFixture
             // you need to save those.
             $manager->flush();
     }
+
+    // public function getDependencies()
+    // {
+    //     return [
+    //         TagFixture::class,
+    //     ];
+    // }
 }

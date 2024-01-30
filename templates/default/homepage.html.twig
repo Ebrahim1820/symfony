@@ -26,6 +26,14 @@
                             <small  style="color: blue;">{{comment.nonDeletedPosts|length}} comment </small>
                             
                             <br>
+                           
+                      {# {% for tag in comment.tags %} #}
+                           <small>
+                        <span class='badge badge-light'> test </span>
+                            </small>
+                      {# {% endfor %} #}
+                   
+                    <br>
                             <span class="align-left article-details"><img class="article-author-img rounded-circle" src="{{ asset('images/alien-profile.png') }}"> {{comment.author}} </span>
                             <span class="pl-5 article-details float-right">
                              {{comment.commentedAt ? comment.commentedAt|ago }}
