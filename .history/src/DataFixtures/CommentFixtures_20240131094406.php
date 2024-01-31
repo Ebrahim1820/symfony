@@ -88,10 +88,8 @@ class CommentFixtures extends BaseFixture implements DependentFixtureInterface
 
     $this->createMany(10, 'main_comments', function($count) use ($manager) {
         $comment = new Comment();
-        
         $comment->setName($this->faker->randomElement(self::$commentTitle))
-            ->setComment(
-                <<<EOF
+            ->setContent(<<<EOF
 Spicy **jalapeno bacon** ipsum dolor amet veniam shank in dolore. Ham hock nisi landjaeger cow,
 lorem proident [beef ribs](https://baconipsum.com/) aute enim veniam ut cillum pork chuck picanha. Dolore reprehenderit
 labore minim pork belly spare ribs cupim short loin in. Elit exercitation eiusmod dolore cow
@@ -121,10 +119,10 @@ EOF
             ->setImageFilename($this->faker->randomElement(self::$commentImages))
         ;
 
-        $tags = $this->getRandomReferences('main_tags', $this->faker->numberBetween(0, 5));
-        foreach ($tags as $tag) {
-            $comment->addTag($tag);
-        }
+        // $tags = $this->getRandomReferences('main_tags', $this->faker->numberBetween(0, 5));
+        // foreach ($tags as $tag) {
+        //     $article->addTag($tag);
+        // }
 
         return $comment;
     });

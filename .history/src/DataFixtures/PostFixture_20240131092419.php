@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 
 
 
-class PostFixture extends BaseFixture implements DependentFixtureInterface
+class PostFixture extends BaseFixture 
 {
     // protected function loadData(ObjectManager $manager)
     // {
@@ -54,7 +54,7 @@ class PostFixture extends BaseFixture implements DependentFixtureInterface
             $comment->setAuthorName($this->faker->name);
             $comment->setCreatedAt($this->faker->dateTimeBetween('-1 months', '-1 seconds'));
             $comment->setIsDeleted($this->faker->boolean(20));
-            $comment->setComment($this->getRandomReference('main_comments'));
+            $comment->setC($this->getRandomReference('main_comments'));
 
             return $comment;
         });
@@ -64,6 +64,6 @@ class PostFixture extends BaseFixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return [CommentFixtures::class];
+        return [ArticleFixtures::class];
     }
 }

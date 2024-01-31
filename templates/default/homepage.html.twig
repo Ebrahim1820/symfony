@@ -27,11 +27,11 @@
                             
                             <br>
                            
-                      {# {% for tag in comment.tags %} #}
+                      {% for tag in comment.tags %}
                            <small>
-                        <span class='badge badge-light'> test </span>
+                        <span class='badge badge-light'> {{tag.name}} </span>
                             </small>
-                      {# {% endfor %} #}
+                      {% endfor %}
                    
                     <br>
                             <span class="align-left article-details"><img class="article-author-img rounded-circle" src="{{ asset('images/alien-profile.png') }}"> {{comment.author}} </span>

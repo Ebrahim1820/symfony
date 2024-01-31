@@ -8,7 +8,7 @@ use App\Entity\Tag;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CommentFixtures extends BaseFixture implements DependentFixtureInterface
+class CommentFixtures extends BaseFixture //implements DependentFixtureInterface
 {
 
     private static $commentTitle = [
@@ -88,10 +88,8 @@ class CommentFixtures extends BaseFixture implements DependentFixtureInterface
 
     $this->createMany(10, 'main_comments', function($count) use ($manager) {
         $comment = new Comment();
-        
-        $comment->setName($this->faker->randomElement(self::$commentTitle))
-            ->setComment(
-                <<<EOF
+        $comment->setTitle($this->faker->randomElement(self::$commentTitles))
+            ->setContent(<<<EOF
 Spicy **jalapeno bacon** ipsum dolor amet veniam shank in dolore. Ham hock nisi landjaeger cow,
 lorem proident [beef ribs](https://baconipsum.com/) aute enim veniam ut cillum pork chuck picanha. Dolore reprehenderit
 labore minim pork belly spare ribs cupim short loin in. Elit exercitation eiusmod dolore cow
@@ -113,7 +111,7 @@ EOF
 
         // publish most articles
         if ($this->faker->boolean(70)) {
-            $comment->setCommentedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
+            $comment->setPublishedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
         }
 
         $comment->setAuthor($this->faker->randomElement(self::$commentAuthors))
@@ -121,10 +119,10 @@ EOF
             ->setImageFilename($this->faker->randomElement(self::$commentImages))
         ;
 
-        $tags = $this->getRandomReferences('main_tags', $this->faker->numberBetween(0, 5));
-        foreach ($tags as $tag) {
-            $comment->addTag($tag);
-        }
+        // $tags = $this->getRandomReferences('main_tags', $this->faker->numberBetween(0, 5));
+        // foreach ($tags as $tag) {
+        //     $article->addTag($tag);
+        // }
 
         return $comment;
     });

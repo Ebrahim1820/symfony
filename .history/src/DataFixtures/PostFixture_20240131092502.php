@@ -64,6 +64,6 @@ class PostFixture extends BaseFixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return [CommentFixtures::class];
+        return [ArticleFixtures::class];
     }
 }

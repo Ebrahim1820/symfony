@@ -8,7 +8,7 @@ use App\Entity\Tag;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CommentFixtures extends BaseFixture implements DependentFixtureInterface
+class CommentFixtures extends BaseFixture //implements DependentFixtureInterface
 {
 
     private static $commentTitle = [
@@ -31,49 +31,49 @@ class CommentFixtures extends BaseFixture implements DependentFixtureInterface
 
 
 
-    // protected function loadData(ObjectManager $manager) 
-    //  {
-//         $this->createMany(Comment::class, 10, function(Comment $comment, $count) use ($manager)  {
+   protected function loadData(ObjectManager $manager) 
+    {
+        $this->createMany(Comment::class, 10, function(Comment $comment, $count) use ($manager)  {
 
-//             $comment->setName($this->faker->randomElement(self::$commentTitle))
-//                 // ->setSlug('Why-Asteroids-Taste-Like-Baco-'.$count)
-//                 ->setComment(
-//                     <<<EDF
-//             'PostgreSQL ist eine objektrelationale Datenbank, 
-//             die sowohl relationale Datenbankfunktionen als auch NoSQL-Funktionen 
-//             zur Abfrage unstrukturierter Daten enthält. Wählen Sie PostgreSQL,
-//              wenn Sie komplexe Prozeduren und Designs,
-//              Integrationen und Datenintegrität benötigen.
-//             '
-//             EDF
-//                 );
+            $comment->setName($this->faker->randomElement(self::$commentTitle))
+                // ->setSlug('Why-Asteroids-Taste-Like-Baco-'.$count)
+                ->setComment(
+                    <<<EDF
+            'PostgreSQL ist eine objektrelationale Datenbank, 
+            die sowohl relationale Datenbankfunktionen als auch NoSQL-Funktionen 
+            zur Abfrage unstrukturierter Daten enthält. Wählen Sie PostgreSQL,
+             wenn Sie komplexe Prozeduren und Designs,
+             Integrationen und Datenintegrität benötigen.
+            '
+            EDF
+                );
 
-//             //publish some articles 
-//             if ($this->faker->boolean(70)) {
-//                 $comment->setCommentedAt(new \DateTime(sprintf('-%d days', rand(1, 100))));
+            //publish some articles 
+            if ($this->faker->boolean(70)) {
+                $comment->setCommentedAt(new \DateTime(sprintf('-%d days', rand(1, 100))));
 
-//             }
-//             $comment->setAuthor($this->faker->randomElement(self::$commentAuthors))
-//                 ->setHeartCount($this->faker->numberBetween(5, 100))
-//                 ->setImageFileName($this->faker->randomElement(self::$commentImages));
+            }
+            $comment->setAuthor($this->faker->randomElement(self::$commentAuthors))
+                ->setHeartCount($this->faker->numberBetween(5, 100))
+                ->setImageFileName($this->faker->randomElement(self::$commentImages));
 
-//             // /** @var Tag[] $tags */
-//             // $tags = $this->getRandomReferences(Tag::class, $this->faker->numberBetween(0, 5));
+            // /** @var Tag[] $tags */
+            // $tags = $this->getRandomReferences(Tag::class, $this->faker->numberBetween(0, 5));
            
-//             // foreach($tags as $tag){
-//             //     $comment->addTag($tag);
-//             // }
-//             // die();
-//             // These two lins will save object
-//             // persist-> it will tell to doctrine to be aware of comment object
-//             //$manager->persist($comment);
+            // foreach($tags as $tag){
+            //     $comment->addTag($tag);
+            // }
+            // die();
+            // These two lins will save object
+            // persist-> it will tell to doctrine to be aware of comment object
+            //$manager->persist($comment);
 
 
-//         });
-//             // flush-> tell to doctrin, look at the object that aware of and make all queries 
-//             // you need to save those.
-//             $manager->flush();
-//     }
+        });
+            // flush-> tell to doctrin, look at the object that aware of and make all queries 
+            // you need to save those.
+            $manager->flush();
+    }
 
     // public function getDependencies()
     // {
@@ -83,15 +83,11 @@ class CommentFixtures extends BaseFixture implements DependentFixtureInterface
     // }
 
     ////////////////////////////////////////////////////
-    protected function loadData(ObjectManager $manager)
-    {
 
     $this->createMany(10, 'main_comments', function($count) use ($manager) {
         $comment = new Comment();
-        
-        $comment->setName($this->faker->randomElement(self::$commentTitle))
-            ->setComment(
-                <<<EOF
+        $comment->setTitle($this->faker->randomElement(self::$commentTitles))
+            ->setContent(<<<EOF
 Spicy **jalapeno bacon** ipsum dolor amet veniam shank in dolore. Ham hock nisi landjaeger cow,
 lorem proident [beef ribs](https://baconipsum.com/) aute enim veniam ut cillum pork chuck picanha. Dolore reprehenderit
 labore minim pork belly spare ribs cupim short loin in. Elit exercitation eiusmod dolore cow
@@ -113,20 +109,20 @@ EOF
 
         // publish most articles
         if ($this->faker->boolean(70)) {
-            $comment->setCommentedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
+            $article->setPublishedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
         }
 
-        $comment->setAuthor($this->faker->randomElement(self::$commentAuthors))
+        $comment->setAuthor($this->faker->randomElement(self::$Authors))
             ->setHeartCount($this->faker->numberBetween(5, 100))
-            ->setImageFilename($this->faker->randomElement(self::$commentImages))
+            ->setImageFilename($this->faker->randomElement(self::$articleImages))
         ;
 
         $tags = $this->getRandomReferences('main_tags', $this->faker->numberBetween(0, 5));
         foreach ($tags as $tag) {
-            $comment->addTag($tag);
+            $article->addTag($tag);
         }
 
-        return $comment;
+        return $article;
     });
 
     $manager->flush();
