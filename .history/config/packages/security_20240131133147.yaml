@@ -34,9 +34,9 @@ security:
         
         secured_area:
                     # ...
-            form_login:
+                    form_login:
                         # ...
-                enable_csrf: true
+                        enable_csrf: true
             
     
 

@@ -17,8 +17,12 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\LoginFormAuthenticator
+            pattern: ^/
             
-        
+            form_login:
+                provider: app_user_provider
+                login_path: app_login
+                check_path: app_login
 
             logout:
                 path: app_logout
@@ -31,14 +35,8 @@ security:
                 lifetime: 604800
                 path: /
                 always_remember_me: true
-        
-        secured_area:
-                    # ...
-            form_login:
-                        # ...
-                enable_csrf: true
             
-    
+          
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

@@ -32,11 +32,11 @@ security:
                 path: /
                 always_remember_me: true
         
-        secured_area:
+        7        secured_area:
                     # ...
-            form_login:
+                    form_login:
                         # ...
-                enable_csrf: true
+                        enable_csrf: true
             
     
 
