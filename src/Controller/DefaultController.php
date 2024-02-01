@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
-
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 
@@ -23,7 +23,7 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'app_homepage')]
    
 
-
+    #[IsGranted('ROLE_USER')]
     public function index(CommentRepository $repository): Response
 
     {
@@ -37,7 +37,8 @@ class DefaultController extends AbstractController
         // ]);
     }
 
-    #[Route('/news/new')]
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/admin/comment/new', name:"admin_comment_new")]
     public function new(EntityManagerInterface $entityManager){
 
         die('TODO');

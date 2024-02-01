@@ -53,6 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
+       
         return (string) $this->email;
     }
 
@@ -62,6 +63,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
+        if($this->email === 'admin@gmail.com'){
+            $roles[] = 'ROLE_ADMIN';
+        }
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 

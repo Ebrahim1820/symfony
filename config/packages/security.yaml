@@ -50,6 +50,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - {path: ^/login$, roles: PUBLIC_ACCESS}
+          # if the user try to access this page, but it only authnticated with remmber-me cookie 
+          # symfony redirect them to login page to fully authenticated
+        - {path: ^/change-password, roles: IS_AUTHENTICATED_FULLY}
+        - {path: ^/, roles: IS_AUTHENTICATED_REMEMBERED}
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
