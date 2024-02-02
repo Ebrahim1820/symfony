@@ -22,4 +22,17 @@ class AccountController extends BaseController
            
         ]);
     }
+
+    // define an API
+    #[Route('/api/account' , name:'api_account')]
+    public function accountApi(){
+        // will return the JSON representation of whoever is logged in
+        $user = $this->getUser();
+
+        return $this->json($user, 200, [],[
+            'groups'=>['main']
+        ]);
+
+
+    }
 }
