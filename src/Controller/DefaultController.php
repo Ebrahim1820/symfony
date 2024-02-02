@@ -24,6 +24,7 @@ class DefaultController extends AbstractController
    
 
     #[IsGranted('ROLE_USER')]
+   
     public function index(CommentRepository $repository): Response
 
     {
@@ -37,7 +38,7 @@ class DefaultController extends AbstractController
         // ]);
     }
 
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_ADMIN_NEW_COMMENT')]
     #[Route('/admin/comment/new', name:"admin_comment_new")]
     public function new(EntityManagerInterface $entityManager){
 
