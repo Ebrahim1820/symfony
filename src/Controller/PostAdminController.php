@@ -31,7 +31,6 @@ class PostAdminController extends AbstractController
 
         $pagination = $paginator->paginate($queryBuilder, $request->query->getInt('page', 1), 10 );
 
-
         
         return $this->render('post_admin/index.html.twig', [
             'pagination' => $pagination,
