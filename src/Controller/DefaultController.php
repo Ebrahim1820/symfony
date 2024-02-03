@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
+#[IsGranted('ROLE_USER')]
 
 class DefaultController extends AbstractController
 
@@ -23,7 +23,7 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'app_homepage')]
    
 
-    #[IsGranted('ROLE_USER')]
+
    
     public function index(CommentRepository $repository): Response
 

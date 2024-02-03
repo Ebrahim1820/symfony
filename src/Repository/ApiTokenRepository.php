@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ApiToken;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,10 +17,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ApiTokenRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    public function __construct(ManagerRegistry $registry, )
     {
         parent::__construct($registry, ApiToken::class);
+
+       
     }
+
+   
 
 //    /**
 //     * @return ApiToken[] Returns an array of ApiToken objects

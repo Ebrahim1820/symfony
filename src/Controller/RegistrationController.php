@@ -11,20 +11,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+
+
 
 class RegistrationController extends AbstractController
 { 
 
     public function __construct(private UserRepository $userRepository, private EntityManagerInterface $entityManager){
-
     }
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register', name: 'app_register', )]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
+        $user->setFirstName('Mystery');
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
@@ -58,4 +62,6 @@ class RegistrationController extends AbstractController
         $this->entityManager->flush();
         dd($users);
     }
+
+    
 }

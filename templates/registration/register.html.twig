@@ -9,27 +9,38 @@
                 Register
             </h1>
 
-            {{ form_start(registrationForm) }}
+            {{ form_start(registrationForm, {'attr': {'class': 'w-1/2 mx-auto'}}) }}
            
-                {{ form_row(registrationForm.email) }}
-                {{ form_row(registrationForm.plainPassword) }}
-            
-            {{ form_row(registrationForm.agreeTerms) }}
+                <div class="mb-4">
+                    {{ form_row(registrationForm.email, {'attr': {'class': 'form-input'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'form-input'}}) }}
+                </div>
+                <div class="mb-6 flex items-center">
+                    {{ form_row(registrationForm.agreeTerms,  {'label_attr': {'class': 'mr-2'}}) }}
+                </div>
 
-                 <!-- CSRF Token -->
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    
             
-            <button 
-                type="submit" 
-                class="uppercase mt-15 btn-primary text-gray-100 text-lg w-1/5 mt-10 font-extrabold py-2 px-8 rounded-3xl">
-                Register
-            </button>
-             {# <button class=" btn-primary uppercase mt-15 bg-blue-500 text-gray-100 text-lg w-1/5 mt-10 font-extrabold py-4 px-8 rounded-3xl" type="submit">
-            Register
-            </button> #}
+                <!-- CSRF Token -->
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            
+                <button 
+                    type="submit" 
+                    class="btn btn-info my-2 my-sm-0 ">
+                    Register
+                </button>
+
+                
             
             {{ form_end(registrationForm) }}
 
         </div>
     </div>
 {% endblock %}
+
+
+
+
+

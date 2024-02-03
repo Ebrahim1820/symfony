@@ -11,18 +11,21 @@
 {% block body %}
 
 
-
-
-
  <form class="form-signin" method="post">
+
+        <!-- ERROR CHECKING -->
         {% if error %}
             <div class='alert alert-danger'>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
+
+         {# LOGIN FORM #}
+
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+         {# EMAIL #}
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" name="email" id="inputEmail" value="{{last_username}}" class="form-control" placeholder="Email address" required autofocus>
+        {# PASSWORD #}
         <label for="inputPassword" class="sr-only">Password</label>
-       
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
         
          <!-- CSRF Token -->
@@ -34,9 +37,14 @@
                 <input type="checkbox" value="remember-me"> Remember me
             </label>
         </div>
+
+           <!-- SUBMIT -->
         <button class="btn btn-lg btn-primary btn-block" type="submit">
             Sign in
         </button>
+
+        <!-- TO REGISTER PAGE -->
+        <p >If you have no account go to register page! <a style="color: blue;" href="{{path('app_register')}}">Register</a></p>
     </form>
 
 {% endblock %}
