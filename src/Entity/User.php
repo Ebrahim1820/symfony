@@ -44,9 +44,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ApiToken::class, orphanRemoval: true)]
     private Collection $apiTokens;
 
+
     public function __construct()
     {
         $this->apiTokens = new ArrayCollection();
+     
     }
 
     public function getId(): ?int
@@ -188,4 +190,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function __toString(){
+        return $this->getFirstName();
+    }
+
+   
 }

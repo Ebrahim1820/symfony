@@ -13,15 +13,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+// use App\Service\ToggleArticleHeart;
 
 #[IsGranted('ROLE_USER')]
 
 class DefaultController extends AbstractController
 
 {
+    // private $toggleArticleHeart;
+    // public function __construct(ToggleArticleHeart $toggleArticleHeart){
+    //     $this->toggleArticleHeart = $toggleArticleHeart;
+    // }
+
 
     #[Route('/', name: 'app_homepage')]
    
+
 
 
    
@@ -74,7 +81,18 @@ class DefaultController extends AbstractController
 
     ################### TOGGEL HEART #######################
 
+    
+    
     #[Route('/news/{slug}/heart', name: 'article_toggle_heart', methods:'POST')]
+
+    
+    // public function toggleArticleHeart(Comment $comment): JsonResponse
+    // {
+    //     $hearts = $this->toggleArticleHeart->toggleArticleHeart($comment);
+
+    //     return $hearts;
+    // }
+    
     public function toggelArticleHeart(Comment $comment, LoggerInterface $logger, EntityManagerInterface $em){
 
         // $comment->setHeartCount($comment->getHeartCount() + 1);
@@ -86,6 +104,16 @@ class DefaultController extends AbstractController
         // JasonResponse(['hearts'=> rand(5, 100)]);
         return  $this->json([ 'hearts' => $comment->getHeartCount() ]);
 
+    }
+
+    #[Route('/admin/comment/{id}/edit')]
+   // #[IsGranted('MANAGE', subject:'comment')]
+    public function edit(Comment $comment){
+        // $this->isGranted('MANAGE', $comment);
+        // if(!$this->isGranted('MANAGE', $comment)){
+        //     throw $this->createAccessDeniedException('No Access!');
+        // }
+        dd($comment);
     }
 
 
