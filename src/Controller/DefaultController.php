@@ -61,10 +61,6 @@ class DefaultController extends AbstractController
              */
             $comment = $form->getData();
 
-           
-            $comment->setAuthor('userTest'); // $this->getUser()
-
-
             $entityManager->persist($comment);
             $entityManager->flush();
 
