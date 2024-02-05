@@ -55,17 +55,22 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
         // Check the form
         if($form->isSubmitted()&& $form->isValid()){
-            $data = $form->getData();
-            $comment = new Comment();
-            $comment->setName($data['name']);
-            $comment->setComment($data['comment']);
-            $comment->setAuthor($this->getUser());
+
+            /**
+             * @var Comment $comment
+             */
+            $comment = $form->getData();
+
+           
+            $comment->setAuthor('userTest'); // $this->getUser()
 
 
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_homepage');
+            $this->addFlash('success', 'Comment Created! Knowledge is power!');
+
+            return $this->redirectToRoute('admin_comment_list');
         }
 
 
@@ -131,7 +136,7 @@ class DefaultController extends AbstractController
     }
 
 
-    #[Route('/admin/comment')]
+    #[Route('/admin/comment', name:'admin_comment_list')]
 
     public function list(CommentRepository $commentRepository){
 
