@@ -1,0 +1,32 @@
+{% extends 'content_base.html.twig' %}
+
+{% block content_body %}
+
+  <a href="{{ path('admin_comment_new') }}" class="btn btn-primary pull-right">
+        Create <span class="fa fa-plus-circle"></span>
+    </a>
+    <h1>All Comments</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                {# <th>Author</th> #}
+                <th>Published?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.name }}</td>
+                    {# <td>{{ comment.author.email }}</td> #}
+                    <td>
+                        <span class="fa fa-{{ comment.isCommented ? 'check' : 'times' }}"></span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+{% endblock %}

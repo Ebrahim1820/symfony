@@ -235,6 +235,13 @@ class Comment
 
 
 
+    public function isCommented():bool
+    {
+        return $this->commentedAt !== null; 
+    }
+
+
+
 
 
 

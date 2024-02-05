@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Psr\Log\LoggerInterface;
@@ -47,18 +48,31 @@ class DefaultController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN_NEW_COMMENT')]
     #[Route('/admin/comment/new', name:"admin_comment_new")]
-    public function new(EntityManagerInterface $entityManager){
+    public function new(EntityManagerInterface $entityManager, Request $request){
 
-        die('TODO');
+        $form = $this->createForm(CommentFormType::class);
 
-             return new Response(sprintf('Hallo! The shiny new comment is <br> id %s,<br> name %s,<br> slug %s <br> comment %s',
-             $comment->getId(),
-             $comment->getName(),
-             $comment->getSlug(),
-             $comment->getComment()
-             )
-            );
-            }
+        $form->handleRequest($request);
+        // Check the form
+        if($form->isSubmitted()&& $form->isValid()){
+            $data = $form->getData();
+            $comment = new Comment();
+            $comment->setName($data['name']);
+            $comment->setComment($data['comment']);
+            $comment->setAuthor($this->getUser());
+
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_homepage');
+        }
+
+
+        return $this->render('comment_admin/new.html.twig', [
+            'commentForm' => $form->createView(),
+        ]);
+}
 
 
     #[Route('/news/{slug}', name: 'article_show')]
@@ -116,6 +130,17 @@ class DefaultController extends AbstractController
         dd($comment);
     }
 
+
+    #[Route('/admin/comment')]
+
+    public function list(CommentRepository $commentRepository){
+
+        $comments = $commentRepository->findAll();
+
+        return $this->render('comment_admin/list.html.twig', [
+            'comments' => $comments
+        ]);
+    }
 
  
 }
