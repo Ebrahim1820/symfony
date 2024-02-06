@@ -38,6 +38,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            if(true === $form['agreeTerms']->getData()){
+                $user->agreeTerms();
+            }
+
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
