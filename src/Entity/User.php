@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -22,6 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     #[Groups('main')]
+    #[Assert\NotBlank]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -85,9 +87,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        if($this->email === 'admin@gmail.com'){
-            $roles[] = 'ROLE_ADMIN';
-        }
+        // if($this->email === 'admin@gmail.com'){
+           // $roles[] = 'ROLE_ADMIN';
+       // }
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 

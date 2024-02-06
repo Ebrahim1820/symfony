@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\TextType;
+use phpDocumentor\Reflection\Types\Void_;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType as SymfonyTextType;
 
 class CommentFormType extends AbstractType
 {
-    private $userRepository;
+    private UserRepository $userRepository;
     public function __construct(UserRepository $userRepository){
 
         $this->userRepository = $userRepository;
@@ -22,7 +23,8 @@ class CommentFormType extends AbstractType
 
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options){
+    public function buildForm(FormBuilderInterface $builder, array $options) 
+    {
 
 
 
@@ -42,8 +44,9 @@ class CommentFormType extends AbstractType
              
                 'placeholder'=>'Choose an author',
                 'choices'=>$this->userRepository
-                ->findAllEmailAlphabetical()
-            ])
+                ->findAllEmailAlphabetical(),
+             'invalid_message' => 'Symfony is too smart for your hacking'
+             ])
         ;
 
     }

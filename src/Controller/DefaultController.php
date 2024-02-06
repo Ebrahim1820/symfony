@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Post;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
@@ -14,17 +15,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-// use App\Service\ToggleArticleHeart;
+use App\Services\ToggleArticleHeart;
 
-#[IsGranted('ROLE_USER')]
+// #[IsGranted('ROLE_USER')]
 
 class DefaultController extends AbstractController
 
 {
-    // private $toggleArticleHeart;
-    // public function __construct(ToggleArticleHeart $toggleArticleHeart){
-    //     $this->toggleArticleHeart = $toggleArticleHeart;
-    // }
+    private $toggleArticleHeart;
+    public function __construct(ToggleArticleHeart $toggleArticleHeart){
+        $this->toggleArticleHeart = $toggleArticleHeart;
+    }
 
 
     #[Route('/', name: 'app_homepage')]
@@ -46,7 +47,7 @@ class DefaultController extends AbstractController
         // ]);
     }
 
-    #[IsGranted('ROLE_ADMIN_NEW_COMMENT')]
+    // #[IsGranted('ROLE_ADMIN_NEW_COMMENT')]
     #[Route('/admin/comment/new', name:"admin_comment_new")]
     public function new(EntityManagerInterface $entityManager, Request $request){
 
@@ -94,41 +95,48 @@ class DefaultController extends AbstractController
 
 
 
-    ################### TOGGEL HEART #######################
+    ################### TOGGELHEART SERVICE #######################
 
-    
-    
     #[Route('/news/{slug}/heart', name: 'article_toggle_heart', methods:'POST')]
+    public function toggleArticleHeart(Comment $comment)
+    {
+        $hearts = $this->toggleArticleHeart->toggleArticleHeart($comment);
 
-    
-    // public function toggleArticleHeart(Comment $comment): JsonResponse
-    // {
-    //     $hearts = $this->toggleArticleHeart->toggleArticleHeart($comment);
-
-    //     return $hearts;
-    // }
-    
-    public function toggelArticleHeart(Comment $comment, LoggerInterface $logger, EntityManagerInterface $em){
-
-        // $comment->setHeartCount($comment->getHeartCount() + 1);
-        $comment->incrementHeartCount();
-        $em->flush();
-
-        $logger->info('Article is being hearted');
-
-        // JasonResponse(['hearts'=> rand(5, 100)]);
-        return  $this->json([ 'hearts' => $comment->getHeartCount() ]);
-
+        return $hearts;
     }
+    
+  
 
-    #[Route('/admin/comment/{id}/edit')]
+    #[Route('admin/comment/{id}/edit', name:'admin_comment_edit' )]
    // #[IsGranted('MANAGE', subject:'comment')]
-    public function edit(Comment $comment){
+    public function edit(Comment $comment, EntityManagerInterface $entityManager, Request $request){
         // $this->isGranted('MANAGE', $comment);
         // if(!$this->isGranted('MANAGE', $comment)){
         //     throw $this->createAccessDeniedException('No Access!');
         // }
         dd($comment);
+        $form = $this->createForm(CommentFormType::class , $comment);
+        
+        $form->handleRequest($request);
+        // Check the form
+        if($form->isSubmitted()&& $form->isValid()){
+
+       
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Comment updated!');
+
+            return $this->redirectToRoute('admin_comment_edit', [
+                'id'=>$comment->getId(),
+            ]);
+        }
+
+
+        return $this->render('comment_admin/edit.html.twig', [
+            'commentForm' => $form->createView(),
+        ]);
     }
 
 

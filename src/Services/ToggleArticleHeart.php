@@ -1,9 +1,9 @@
 <?php
-namespace App\Service;
+namespace App\Services;
+
 use App\Entity\Comment;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ToggleArticleHeart extends AbstractController

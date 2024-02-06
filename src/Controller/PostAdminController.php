@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
-#[IsGranted('ROLE_ADMIN_POST')]
+// #[IsGranted('ROLE_ADMIN_POST')]
 class PostAdminController extends AbstractController
 {
      

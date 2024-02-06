@@ -5,12 +5,13 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -23,12 +24,12 @@ class Comment
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+
+    #[Assert\NotBlank(message: 'Please provide a value for the name field.')]
     private ?string $name = null;
     
-      /**
-     * @Gedmo\Slug(fields={"name"})
-     
-     */
+
+
     #[ORM\Column(length: 100, unique:true)]
     #[Gedmo\Slug(fields: ['name'])]
     private ?string $slug = null;
@@ -240,10 +241,19 @@ class Comment
         return $this->commentedAt !== null; 
     }
 
+    #[Assert\Callback]
 
+    public function validate(ExecutionContextInterface $context){
 
+        if(stripos($this->getName(), 'the borg') !== false){
 
+            $context->buildViolation('Um.. the Bork kinda makes us nervous')
+                ->atPath('name')
+                ->addViolation();
+        }
+    }
 
+ 
 
 
 }

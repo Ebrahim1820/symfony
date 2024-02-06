@@ -10,17 +10,26 @@
         <thead>
             <tr>
                 <th>Title</th>
-                <th>Author</th>
+                {# <th>Author</th> #}
                 <th>Published?</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
             {% for comment in comments %}
                 <tr>
                     <td>{{ comment.name }}</td>
-                    <td>{{ app.user.email}}</td>
+                    {# <td>{{ app.user.email}}</td> #}
                     <td>
                         <span class="fa fa-{{ comment.isCommented ? 'check' : 'times' }}"></span>
+                    </td>
+                    <td>
+                     <a href="#"> 
+                     {# {{ path(’admin_comment_edit’, {
+                        id:comment.id
+                     }) }} #}
+                     <span class='fa fa-pencil'> </span>
+                     </a>
                     </td>
                 </tr>
             {% endfor %}
