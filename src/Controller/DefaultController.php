@@ -114,7 +114,7 @@ class DefaultController extends AbstractController
         // if(!$this->isGranted('MANAGE', $comment)){
         //     throw $this->createAccessDeniedException('No Access!');
         // }
-        dd($comment);
+       
         $form = $this->createForm(CommentFormType::class , $comment);
         
         $form->handleRequest($request);
@@ -128,7 +128,7 @@ class DefaultController extends AbstractController
 
             $this->addFlash('success', 'Comment updated!');
 
-            return $this->redirectToRoute('admin_comment_edit', [
+            return $this->redirectToRoute('admin_comment_list', [
                 'id'=>$comment->getId(),
             ]);
         }
