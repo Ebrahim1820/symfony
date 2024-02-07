@@ -1,24 +1,26 @@
 {% extends 'content_base.html.twig' %}
 
+{% block javascripts %}
+
+    {{parent()}}
+
+    <script src='{{asset('js/admin_article_form.js')}}'> </script>
+
+{% endblock %}
+
 {% block content_body %}
 
     <h1> Edit the Comment!</h1>
 
-    {{  form_start(commentForm) }}
-        {# {{ form_widget(commentForm) }} #}
-        {{ form_row(commentForm.name, {
-            label:'Comment Name'
-        }) }}
-        {{ form_row(commentForm.comment)}}
-        {{ form_row(commentForm.commentedAt,{
-            label:'Commented At'
-        } ) }} 
-         {{ form_row(commentForm.author) }}
+     {{ include('comment_admin/_form.html.twig',{
+        button_text:'update!'
+     }) }}
 
-        <button type='submit' class='btn btn-primary'> Update </button> 
 
-    {{  form_end(commentForm) }}
+
+   
 
 
 
 {% endblock %}
+

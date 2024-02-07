@@ -57,6 +57,12 @@ class Comment
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'comments')]
     private Collection $tags;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $location = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $specificLocationName = null;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -251,6 +257,35 @@ class Comment
                 ->atPath('name')
                 ->addViolation();
         }
+    }
+
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?string $location): self
+    {
+        $this->location = $location;
+
+        if(!$location || $location ==='interstellar_space'){
+            $this->setSpecificLocationName(null);
+
+        }
+
+        return $this;
+    }
+
+    public function getSpecificLocationName(): ?string
+    {
+        return $this->specificLocationName;
+    }
+
+    public function setSpecificLocationName(?string $specificLocationName): static
+    {
+        $this->specificLocationName = $specificLocationName;
+
+        return $this;
     }
 
  

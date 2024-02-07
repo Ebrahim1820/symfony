@@ -140,6 +140,27 @@ class DefaultController extends AbstractController
     }
 
 
+    #[Route('/admin/comment/location-select', name:'admin_comment_location_select')]
+    public function getSpecificLocationSelect(Request $request)
+    {
+        $comment = new Comment();
+        $comment->setLocation($request->query->get('location'));
+        $form = $this->createForm(CommentFormType::class, $comment);
+
+        // no field? return an empty response
+        if(!$form->has('specificLocationName')){
+            return new Response(null, 204);
+        }
+
+        return $this->render('comment_admin/_specific_location_name.html.twig', [
+            'commentForm' => $form->createView()
+        ]);
+
+
+
+    }
+
+
     #[Route('/admin/comment', name:'admin_comment_list')]
 
     public function list(CommentRepository $commentRepository){
