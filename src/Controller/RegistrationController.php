@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Form\Model\UserRegistrationFormModel;
 
 
 
@@ -24,21 +25,33 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register', )]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        $user = new User();
-        $user->setFirstName('Mystery');
+        $user = new UserRegistrationFormModel();
+         
+         
         $form = $this->createForm(RegistrationFormType::class, $user);
+
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+
+             /**
+             * @var UserRegistrationFormModel $userModel   
+             */
+            $userModel = $form->getData();
+
+            $user = new User();
+            $user->setFirstName('Mystery');
+            $user->setEmail($userModel->email);
+
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                   $userModel->plainPassword //$form->get('plainPassword')->getData()
                 )
             );
-
-            if(true === $form['agreeTerms']->getData()){
+                // $form['agreeTerms']->getData()
+            if(true === $userModel->agreeTerms){
                 $user->agreeTerms();
             }
 
