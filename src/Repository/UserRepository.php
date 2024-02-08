@@ -51,12 +51,25 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * Summary of findAllEmailAlphabetical
      * @return User[]
      */
-    public function findAllEmailAlphabetical(){
+    public function findAllEmailAlphabetical():array
+    {
 
         return $this->createQueryBuilder('u')
             ->orderBy('u.email', 'ASC')
             ->getQuery()
             ->execute();
+    }
+
+    /**
+     * Summary of findAllEmailAlphabetical
+     * @return User[]
+     */
+    public function findAllSubscribedToNewsletter():array
+    {
+        return $this->createQueryBuilder('u')
+        ->andWhere('u.subscribeToNewsletter = 1')
+        ->getQuery()
+        ->getResult();
     }
     
 

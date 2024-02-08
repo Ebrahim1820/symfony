@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use APP\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
 // use Doctrine\DBAL\Query\QueryBuilder;
@@ -69,5 +70,20 @@ class CommentRepository extends ServiceEntityRepository
     private function getOrCreateQueryBuilder(?QueryBuilder $qb=null)
     {
         return $qb ?: $this->createQueryBuilder('a');
+    }
+
+    /**
+     * @return Comment[]
+     */
+    public function findAllPublishedLastWeekByAuthor(User $author): array
+    {
+        return $this-> createQueryBuilder('c')
+        ->andWhere('c.author = :author')
+        ->andWhere('c.commentedAt > :week_ago')
+        ->setParameter('author', $author)
+        ->setParameter('week_ago', new \DateTime('-1  week'))
+        ->getQuery()
+        ->getResult()
+        ;
     }
 }
