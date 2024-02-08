@@ -50,9 +50,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $agreedTermsAt = null;
 
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $subscribeToNewsletter = null;
 
-
-
+    
 
     public function __construct()
     {
@@ -215,6 +216,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function isSubscribeToNewsletter(): ?bool
+    {
+        return $this->subscribeToNewsletter;
+    }
+
+    public function setSubscribeToNewsletter(bool $subscribeToNewsletter): static
+    {
+        $this->subscribeToNewsletter = $subscribeToNewsletter;
+
+        return $this;
+    }
+
+
+
+
+
 
  
 }
